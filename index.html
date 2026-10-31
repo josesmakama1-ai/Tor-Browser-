@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLASSIFIED · BLACK SITE ACCESS</title>
+  <style>
+    :root {
+      --gov-panel: #0B0D0F;
+      --gov-panel-2: #101315;
+      --gov-line: #1E2327;
+      --gov-line-bright: #2E363C;
+      --gov-text: #B8C4C9;
+      --gov-text-dim: #5E6B72;
+      --gov-text-muted: #3E484E;
+      --gov-amber: #E8A33D;
+      --gov-amber-glow: #F5B95A;
+      --gov-red: #D94848;
+      --gov-green: #4EA86B;
+      --gov-cyan: #6FB3C4;
+      --gov-gold: #C9A227;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'SF Mono','Menlo','Consolas','Roboto Mono',monospace; }
+    body {
+      min-height:100vh;
+      background: repeating-linear-gradient(0deg,rgba(255,255,255,0.012) 0px,rgba(255,255,255,0.012) 1px,transparent 1px,transparent 3px),
+                  radial-gradient(circle at 50% 0%,#12161A,#050607 75%);
+      display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    }
+    .accessor-card {
+      width:100%; max-width:980px; background:var(--gov-panel);
+      border:1px solid var(--gov-line-bright); border-radius:4px;
+      box-shadow:0 0 0 1px #000,0 20px 60px -10px #000,inset 0 0 80px rgba(0,0,0,0.6);
+      position:relative; overflow:hidden;
+    }
+    .accessor-card::before, .accessor-card::after {
+      content:''; position:absolute; width:20px; height:20px;
+      border-color:var(--gov-amber); border-style:solid;
+      pointer-events:none; opacity:0.55; z-index:5;
+    }
+    .accessor-card::before { top:8px; left:8px; border-width:2px 0 0 2px; }
+    .accessor-card::after { bottom:8px; right:8px; border-width:0 2px 2px 0; }
+    .class-bar {
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--gov-amber); color:#0A0A0A;
+      font-size:0.6rem; font-weight:700; letter-spacing:0.28em;
+      text-transform:uppercase; padding:0.4rem 1.2rem; border-bottom:1px solid #000;
+    }
+    .class-bar .left, .class-bar .right { display:flex; align-items:center; gap:0.8rem; }
+    .class-bar .blink {
+      width:6px; height:6px; background:#0A0A0A; border-radius:50%;
+      animation:blink 1.4s steps(2,start) infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.15;} }
+    .card-inner { padding:1.8rem 2rem 2rem; }
+    .header {
+      display:flex; align-items:center; gap:1rem; margin-bottom:1.6rem;
+      padding-bottom:1rem; border-bottom:1px solid var(--gov-line);
+    }
+    .seal {
+      width:52px; height:52px; border:1px solid var(--gov-line-bright); border-radius:2px;
+      display:flex; align-items:center; justify-content:center; background:var(--gov-panel-2);
+      flex-shrink:0;
+    }
+    .seal svg { width:34px; height:34px; color:var(--gov-amber); filter:drop-shadow(0 0 6px rgba(232,163,61,0.4)); }
+    .header-titles h1 {
+      font-size:1.15rem; font-weight:700; letter-spacing:0.18em;
+      color:#E6EDF0; text-transform:uppercase; line-height:1.2;
+    }
+    .header-titles .sub {
+      font-size:0.62rem; letter-spacing:0.22em; color:var(--gov-text-dim);
+      text-transform:uppercase; margin-top:0.3rem;
+    }
+    .header-titles .sub .warn { color:var(--gov-red); font-weight:700; }
+    .meta-strip {
+      display:flex; flex-wrap:wrap; gap:0.5rem 1.4rem; font-size:0.6rem;
+      letter-spacing:0.12em; color:var(--gov-text-muted); text-transform:uppercase;
+      margin-bottom:1.5rem; padding:0.6rem 0.8rem; background:var(--gov-panel-2);
+      border-left:2px solid var(--gov-amber);
+    }
+    .meta-strip .val { color:var(--gov-text); }
+    .meta-strip .val.red { color:var(--gov-red); font-weight:700; }
+    .field-label {
+      display:flex; align-items:center; gap:0.5rem; font-size:0.62rem;
+      letter-spacing:0.2em; text-transform:uppercase; color:var(--gov-text-dim);
+      font-weight:600; margin-bottom:0.5rem;
+    }
+    .field-label .tag { color:var(--gov-amber); font-weight:700; }
+    .field-label .line { flex:1; height:1px; background:var(--gov-line); }
+    .address-block {
+      display:flex; align-items:stretch; background:#000;
+      border:1px solid var(--gov-line-bright); border-radius:2px;
+      margin-bottom:1.1rem; overflow:hidden;
+    }
+    .address-prefix {
+      display:flex; align-items:center; justify-content:center; padding:0 0.9rem;
+      background:var(--gov-panel-2); border-right:1px solid var(--gov-line-bright);
+      color:var(--gov-amber); font-size:0.75rem; font-weight:700;
+    }
+    .address-text {
+      flex:1; padding:0.85rem 1rem; font-size:0.92rem; color:#E6EDF0;
+      letter-spacing:0.06em; word-break:break-all; user-select:all;
+      cursor:text; background:#030405;
+    }
+    .copy-btn {
+      display:flex; align-items:center; justify-content:center; padding:0 1.1rem;
+      background:var(--gov-panel-2); border:none;
+      border-left:1px solid var(--gov-line-bright); color:var(--gov-cyan);
+      cursor:pointer; transition:all 0.15s ease;
+    }
+    .copy-btn:hover { background:#1A2024; color:#A8E0F0; }
+    .directive {
+      font-size:0.72rem; line-height:1.6; color:var(--gov-text);
+      letter-spacing:0.02em; padding:0.75rem 1rem;
+      background:rgba(232,163,61,0.05); border:1px solid var(--gov-line);
+      border-left:2px solid var(--gov-amber); margin-bottom:1.4rem;
+    }
+    .directive strong { color:var(--gov-amber-glow); font-weight:700; letter-spacing:0.08em; }
+    .amount-badge {
+      display:inline-block; background:#000; border:1px solid var(--gov-line-bright);
+      padding:0.05rem 0.5rem; margin:0 0.1rem; color:var(--gov-amber-glow);
+      font-weight:700; letter-spacing:0.05em;
+    }
+    .upload-zone {
+      display:flex; align-items:center; gap:0.9rem; background:#000;
+      border:1px dashed var(--gov-line-bright); border-radius:2px;
+      padding:1rem 1.1rem; margin-bottom:0.4rem; cursor:pointer;
+      transition:all 0.15s ease;
+    }
+    .upload-zone:hover { border-color:var(--gov-amber); background:rgba(232,163,61,0.03); }
+    .upload-zone.dragover { border-color:var(--gov-amber); border-style:solid; background:rgba(232,163,61,0.07); }
+    .upload-icon {
+      width:36px; height:36px; border:1px solid var(--gov-line-bright);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--gov-cyan); flex-shrink:0; background:var(--gov-panel-2);
+    }
+    .upload-info { flex:1; min-width:0; }
+    .upload-title {
+      font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
+      color:var(--gov-text); font-weight:600;
+    }
+    .upload-sub {
+      font-size:0.6rem; letter-spacing:0.08em; color:var(--gov-text-muted);
+      margin-top:0.2rem;
+    }
+    .upload-cta {
+      font-size:0.58rem; letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--gov-amber); border:1px solid var(--gov-line-bright);
+      padding:0.3rem 0.6rem; flex-shrink:0;
+    }
+    .file-list { display:flex; flex-direction:column; gap:0.3rem; margin-bottom:0.4rem; }
+    .file-item {
+      display:flex; align-items:center; gap:0.5rem; background:#000;
+      border:1px solid var(--gov-line); padding:0.4rem 0.7rem;
+      font-size:0.66rem; color:var(--gov-text);
+    }
+    .file-item .file-name { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--gov-cyan); }
+    .file-item .file-size { color:var(--gov-text-muted); font-size:0.6rem; flex-shrink:0; }
+    .file-item .remove-file {
+      background:none; border:none; color:var(--gov-red); cursor:pointer;
+      font-size:0.8rem; line-height:1; padding:0 0.1rem; flex-shrink:0;
+    }
+    .proof-note {
+      display:flex; align-items:center; gap:0.5rem; font-size:0.6rem;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--gov-text-muted);
+      margin-bottom:1.4rem; padding-left:0.15rem;
+    }
+    .proof-note .req { color:var(--gov-red); font-weight:700; }
+    .email-block {
+      display:flex; align-items:stretch; background:#000;
+      border:1px solid var(--gov-line-bright); border-radius:2px;
+      margin-bottom:0.5rem; overflow:hidden;
+    }
+    .email-prefix {
+      display:flex; align-items:center; justify-content:center; padding:0 0.9rem;
+      background:var(--gov-panel-2); border-right:1px solid var(--gov-line-bright);
+      color:var(--gov-cyan);
+    }
+    .email-block input {
+      flex:1; background:#030405; border:none; padding:0.85rem 1rem;
+      font-size:0.85rem; color:#E6EDF0; letter-spacing:0.03em; outline:none;
+      font-family:inherit;
+    }
+    .email-block input::placeholder { color:var(--gov-text-muted); font-size:0.72rem; letter-spacing:0.08em; }
+    .email-note {
+      font-size:0.62rem; line-height:1.5; color:var(--gov-text-dim);
+      letter-spacing:0.03em; padding-left:0.15rem; margin-bottom:1.5rem;
+    }
+    .email-note strong { color:var(--gov-amber); font-weight:700; letter-spacing:0.08em; }
+    .submit-btn {
+      width:100%; background:var(--gov-panel-2); border:1px solid var(--gov-amber);
+      color:var(--gov-amber-glow); padding:0.9rem 1rem; font-size:0.78rem;
+      font-weight:700; letter-spacing:0.28em; text-transform:uppercase;
+      cursor:pointer; transition:all 0.15s ease; display:flex;
+      align-items:center; justify-content:center; gap:0.6rem;
+      font-family:inherit; position:relative;
+    }
+    .submit-btn:hover { background:var(--gov-amber); color:#0A0A0A; }
+    .submit-btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .submit-btn.loading::after {
+      content:''; position:absolute; right:1rem; width:12px; height:12px;
+      border:2px solid rgba(232,163,61,0.3); border-top-color:var(--gov-amber-glow);
+      border-radius:50%; animation:spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .status-console {
+      display:flex; align-items:center; gap:0.6rem; margin-top:1.2rem;
+      padding:0.6rem 0.8rem; background:#000; border:1px solid var(--gov-line);
+      font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase;
+    }
+    .status-led {
+      width:7px; height:7px; border-radius:50%; background:var(--gov-text-muted);
+      flex-shrink:0; transition:background 0.2s,box-shadow 0.2s;
+    }
+    .status-led.idle { background:var(--gov-text-muted); }
+    .status-led.success { background:var(--gov-green); box-shadow:0 0 8px var(--gov-green); }
+    .status-led.error { background:var(--gov-red); box-shadow:0 0 8px var(--gov-red); }
+    .status-text { color:var(--gov-text-dim); font-family:inherit; }
+    .divider {
+      border:none; height:1px; background:var(--gov-line);
+      margin:1.8rem 0 1.4rem; position:relative;
+    }
+    .divider::before {
+      content:'// FREE ACCESS NODES //'; position:absolute; top:-0.5rem; left:50%;
+      transform:translateX(-50%); background:var(--gov-panel); padding:0 0.8rem;
+      font-size:0.55rem; letter-spacing:0.3em; color:var(--gov-cyan);
+      text-transform:uppercase; white-space:nowrap;
+    }
+    .divider.divider-premium::before { content:'// PAID PREMIUM LINKS //'; color:var(--gov-gold); letter-spacing:0.28em; }
+    .data-table {
+      width:100%; border-collapse:collapse; font-size:0.66rem; background:#000;
+      border:1px solid var(--gov-line-bright); table-layout:fixed;
+    }
+    .data-table thead th {
+      background:var(--gov-panel-2); color:var(--gov-text-dim);
+      font-weight:700; text-transform:uppercase; letter-spacing:0.16em;
+      font-size:0.55rem; padding:0.5rem 0.6rem; text-align:left;
+      border-bottom:1px solid var(--gov-line-bright); white-space:nowrap;
+      position:sticky; top:0; z-index:3;
+    }
+    .data-table thead th.col-num { width:48px; text-align:center; }
+    .data-table thead th.col-url { width:46%; }
+    .data-table thead th.col-market { width:24%; }
+    .data-table thead th.col-purpose { width:30%; }
+    .data-table tbody td {
+      padding:0.5rem 0.6rem; color:var(--gov-text);
+      border-bottom:1px solid var(--gov-line); white-space:nowrap;
+      overflow:hidden; text-overflow:ellipsis; vertical-align:middle;
+    }
+    .data-table tbody tr:last-child td { border-bottom:none; }
+    .data-table tbody tr:hover td { background:#0A0D0F; }
+    .data-table .row-num { color:var(--gov-amber); font-weight:700; text-align:center; font-size:0.6rem; }
+    .data-table .url-cell { color:var(--gov-cyan); font-size:0.62rem; letter-spacing:0.02em; }
+    .data-table .market-cell { color:var(--gov-text); font-size:0.62rem; }
+    .data-table .purpose-cell { color:var(--gov-text-dim); font-size:0.62rem; }
+    .premium-table-wrapper { position:relative; overflow:hidden; }
+    .premium-table-scroll {
+      max-height:420px; overflow-y:auto; overflow-x:hidden;
+      border:1px solid var(--gov-line-bright); position:relative;
+      scrollbar-width:thin; scrollbar-color:var(--gov-line-bright) #000;
+    }
+    .premium-table-scroll::-webkit-scrollbar { width:8px; }
+    .premium-table-scroll::-webkit-scrollbar-track { background:#000; }
+    .premium-table-scroll::-webkit-scrollbar-thumb { background:var(--gov-line-bright); border-radius:0; }
+    .premium-table-scroll::-webkit-scrollbar-thumb:hover { background:var(--gov-gold); }
+    .premium-table {
+      border-color:rgba(201,162,39,0.4); transition:filter 0.45s ease,opacity 0.45s ease; border:none;
+    }
+    .premium-table thead th {
+      background:linear-gradient(180deg,#17140B,#12100A); color:var(--gov-gold);
+      border-bottom:1px solid rgba(201,162,39,0.35);
+    }
+    .premium-table thead th.col-num { width:48px; text-align:center; }
+    .premium-table tbody td { border-bottom:1px solid rgba(201,162,39,0.12); color:var(--gov-text); }
+    .premium-table .row-num { color:var(--gov-gold); }
+    .premium-table .url-cell { color:#D8C77A; }
+    .premium-table .market-cell { color:var(--gov-text); font-size:0.62rem; }
+    .premium-table .purpose-cell { color:rgba(201,162,39,0.7); font-size:0.62rem; }
+    .redacted {
+      display:inline-block; background:#1A1610; color:transparent; border-radius:2px;
+      padding:0 2px; margin:0 1px; user-select:none; filter:blur(2.5px);
+      text-shadow:0 0 3px rgba(201,162,39,0.6); position:relative;
+    }
+    .redacted::selection { background:transparent; }
+    .lock-inline { display:inline-flex; align-items:center; margin-left:0.3rem; color:var(--gov-gold); opacity:0.8; }
+    .status-indicator {
+      display:inline-flex; align-items:center; gap:0.35rem; font-size:0.5rem;
+      letter-spacing:0.1em; text-transform:uppercase; font-weight:700;
+    }
+    .status-indicator .flash-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; position:relative; }
+    .status-indicator .flash-dot.green { background:var(--gov-green); box-shadow:0 0 8px var(--gov-green); animation:flashGreen 1.2s steps(2,start) infinite; }
+    .status-indicator .flash-dot.red { background:var(--gov-red); box-shadow:0 0 8px var(--gov-red); animation:flashRed 1.2s steps(2,start) infinite; }
+    @keyframes flashGreen {
+      0%,100% { opacity:1; box-shadow:0 0 8px var(--gov-green),0 0 16px rgba(78,168,107,0.6); }
+      50% { opacity:0.2; box-shadow:0 0 2px var(--gov-green); }
+    }
+    @keyframes flashRed {
+      0%,100% { opacity:1; box-shadow:0 0 8px var(--gov-red),0 0 16px rgba(217,72,72,0.6); }
+      50% { opacity:0.2; box-shadow:0 0 2px var(--gov-red); }
+    }
+    .status-indicator .flash-label.green { color:var(--gov-green); }
+    .status-indicator .flash-label.red { color:var(--gov-red); }
+    .premium-table-wrapper:hover .premium-table { filter:blur(5px); opacity:0.3; }
+    .activation-fade-msg {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.9);
+      z-index:20; display:flex; flex-direction:column; align-items:center; gap:0.55rem;
+      background:#000; border:1px solid var(--gov-gold); padding:0.9rem 1.2rem;
+      text-align:center; white-space:nowrap; opacity:0; visibility:hidden;
+      transition:opacity 0.4s ease,visibility 0.4s ease,transform 0.4s ease;
+      pointer-events:none; box-shadow:0 0 0 1px #000,0 0 30px rgba(201,162,39,0.35),0 10px 40px -10px #000;
+    }
+    .activation-fade-msg .msg-title {
+      display:flex; align-items:center; gap:0.45rem; font-size:0.58rem;
+      font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--gov-gold);
+    }
+    .activation-fade-msg .msg-title svg { width:13px; height:13px; flex-shrink:0; }
+    .activation-fade-msg .msg-sub {
+      font-size:0.46rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gov-text-dim);
+    }
+    .premium-table-wrapper:hover .activation-fade-msg {
+      opacity:1; visibility:visible; transform:translate(-50%,-50%) scale(1);
+    }
+    .how-to-use {
+      margin-top:2rem; padding:1.4rem 1.5rem 1.5rem; background:#000;
+      border:1px solid var(--gov-line-bright); border-left:2px solid var(--gov-cyan);
+      border-radius:2px; position:relative;
+    }
+    .how-to-use::before {
+      content:'// OPERATIONAL GUIDE //'; position:absolute; top:-0.55rem; left:1rem;
+      background:var(--gov-panel); padding:0 0.6rem; font-size:0.52rem;
+      letter-spacing:0.28em; color:var(--gov-cyan); text-transform:uppercase;
+    }
+    .how-to-use h2 {
+      font-size:0.82rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--gov-cyan); margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;
+    }
+    .how-to-use h2 svg { width:16px; height:16px; filter:drop-shadow(0 0 5px rgba(111,179,196,0.6)); }
+    .how-steps { display:flex; flex-direction:column; gap:0.7rem; counter-reset:step; }
+    .how-step {
+      display:flex; align-items:flex-start; gap:0.75rem; font-size:0.7rem;
+      line-height:1.55; color:var(--gov-text); letter-spacing:0.02em; counter-increment:step;
+    }
+    .how-step::before {
+      content:counter(step); flex-shrink:0; width:22px; height:22px;
+      border:1px solid var(--gov-cyan); border-radius:2px; background:var(--gov-panel-2);
+      color:var(--gov-cyan); font-size:0.6rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center; margin-top:0.05rem;
+      box-shadow:0 0 10px rgba(111,179,196,0.15);
+    }
+    .how-step strong { color:#E6EDF0; font-weight:700; letter-spacing:0.06em; }
+    .how-step .step-text { flex:1; }
+    .how-step .step-text code {
+      background:var(--gov-panel-2); border:1px solid var(--gov-line); color:var(--gov-cyan);
+      padding:0.05rem 0.35rem; border-radius:2px; font-size:0.65rem; letter-spacing:0.04em;
+    }
+    .safety-callout {
+      margin-top:1.1rem; padding:0.85rem 1rem; background:rgba(217,72,72,0.07);
+      border:1px solid rgba(217,72,72,0.4); border-left:3px solid var(--gov-red);
+      display:flex; align-items:flex-start; gap:0.65rem;
+    }
+    .safety-callout .safety-icon {
+      color:var(--gov-red); flex-shrink:0; margin-top:0.05rem;
+      filter:drop-shadow(0 0 6px rgba(217,72,72,0.6));
+    }
+    .safety-callout .safety-text {
+      font-size:0.72rem; line-height:1.55; color:rgba(255,200,200,0.9); letter-spacing:0.03em;
+    }
+    .safety-callout .safety-text strong {
+      color:var(--gov-red); font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    }
+    .footer-warning {
+      display:flex; flex-wrap:wrap; justify-content:space-between; gap:0.4rem;
+      margin-top:1.4rem; padding-top:0.8rem; border-top:1px solid var(--gov-line);
+      font-size:0.52rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gov-text-muted);
+    }
+    .footer-warning span { display:flex; align-items:center; gap:0.3rem; }
+    .footer-warning .danger { color:var(--gov-red); font-weight:700; }
+    .activation-overlay {
+      position:fixed; inset:0; z-index:1000; display:flex; align-items:center;
+      justify-content:center; padding:1.5rem; background:rgba(3,4,5,0.92);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      opacity:0; visibility:hidden; transition:opacity 0.4s ease,visibility 0.4s ease;
+    }
+    .activation-overlay.active { opacity:1; visibility:visible; }
+    .activation-box {
+      width:100%; max-width:460px; background:var(--gov-panel);
+      border:1px solid var(--gov-gold); border-radius:4px; padding:0;
+      box-shadow:0 0 0 1px #000,0 0 60px rgba(201,162,39,0.25),0 30px 80px -20px #000;
+      position:relative; overflow:hidden; transform:translateY(12px) scale(0.97);
+      opacity:0; transition:transform 0.45s cubic-bezier(0.16,1,0.3,1),opacity 0.4s ease;
+    }
+    .activation-overlay.active .activation-box { transform:translateY(0) scale(1); opacity:1; }
+    .activation-box .class-bar {
+      background:var(--gov-gold); color:#0A0A0A; font-size:0.55rem;
+      letter-spacing:0.22em; padding:0.35rem 1rem;
+    }
+    .activation-box .class-bar .blink { background:#0A0A0A; }
+    .activation-body { padding:1.6rem 1.5rem 1.5rem; }
+    .activation-seal { display:flex; justify-content:center; margin-bottom:1rem; }
+    .activation-seal .seal-circle {
+      width:58px; height:58px; border:1px solid var(--gov-gold); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(201,162,39,0.06); color:var(--gov-gold);
+      box-shadow:0 0 25px rgba(201,162,39,0.2),inset 0 0 15px rgba(201,162,39,0.08);
+    }
+    .activation-title {
+      text-align:center; font-size:0.9rem; font-weight:700; letter-spacing:0.2em;
+      text-transform:uppercase; color:var(--gov-amber-glow); margin-bottom:0.4rem;
+    }
+    .activation-sub {
+      text-align:center; font-size:0.6rem; letter-spacing:0.14em;
+      text-transform:uppercase; color:var(--gov-text-dim); margin-bottom:1.3rem;
+    }
+    .activation-info {
+      font-size:0.66rem; line-height:1.6; color:var(--gov-text);
+      letter-spacing:0.02em; padding:0.7rem 0.8rem; background:#000;
+      border:1px solid var(--gov-line); border-left:2px solid var(--gov-gold);
+      margin-bottom:1.2rem; text-align:center;
+    }
+    .activation-info strong { color:var(--gov-gold); font-weight:700; letter-spacing:0.08em; }
+    .code-text-wrapper {
+      display:flex; align-items:stretch; background:#000;
+      border:1px solid var(--gov-line-bright); border-radius:2px;
+      margin-bottom:0.5rem; overflow:hidden; transition:border-color 0.2s ease,box-shadow 0.2s ease;
+    }
+    .code-text-wrapper:focus-within { border-color:var(--gov-gold); box-shadow:0 0 15px rgba(201,162,39,0.2); }
+    .code-prefix {
+      display:flex; align-items:center; justify-content:center; padding:0 0.8rem;
+      background:var(--gov-panel-2); border-right:1px solid var(--gov-line-bright);
+      color:var(--gov-gold); font-size:0.7rem; font-weight:700;
+    }
+    .code-text-wrapper input {
+      flex:1; background:#030405; border:none; padding:0.85rem 0.9rem;
+      font-size:0.9rem; color:#E6EDF0; letter-spacing:0.3em; outline:none;
+      font-family:inherit; text-transform:uppercase;
+    }
+    .code-text-wrapper input::placeholder { color:var(--gov-text-muted); font-size:0.66rem; letter-spacing:0.1em; }
+    .code-count-hint {
+      display:flex; justify-content:space-between; font-size:0.48rem;
+      letter-spacing:0.12em; text-transform:uppercase; color:var(--gov-text-muted);
+      padding:0 0.2rem; margin-bottom:0.5rem;
+    }
+    .code-count-hint .count { color:var(--gov-gold); font-weight:700; }
+    .code-error {
+      font-size:0.58rem; letter-spacing:0.08em; color:var(--gov-red);
+      text-transform:uppercase; padding-left:0.2rem; min-height:1rem;
+      margin-bottom:0.6rem; opacity:0; transition:opacity 0.2s ease; text-align:center;
+    }
+    .code-error.show { opacity:1; }
+    .activation-actions { display:flex; gap:0.6rem; }
+    .activate-btn {
+      flex:1; background:var(--gov-panel-2); border:1px solid var(--gov-gold);
+      color:var(--gov-gold); padding:0.75rem 1rem; font-size:0.68rem;
+      font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+      cursor:pointer; transition:all 0.15s ease; display:flex;
+      align-items:center; justify-content:center; gap:0.5rem; font-family:inherit;
+    }
+    .activate-btn:hover { background:var(--gov-gold); color:#0A0A0A; }
+    .cancel-btn {
+      background:transparent; border:1px solid var(--gov-line-bright);
+      color:var(--gov-text-dim); padding:0.75rem 1rem; font-size:0.65rem;
+      font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+      cursor:pointer; transition:all 0.15s ease; font-family:inherit;
+    }
+    .cancel-btn:hover { border-color:var(--gov-text-dim); color:var(--gov-text); }
+    .activation-footer {
+      text-align:center; font-size:0.52rem; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--gov-text-muted);
+      margin-top:1rem; padding-top:0.8rem; border-top:1px solid var(--gov-line);
+    }
+    @media (max-width:700px) {
+      .card-inner { padding:1.4rem 1.2rem 1.6rem; }
+      .class-bar { font-size:0.5rem; letter-spacing:0.18em; padding:0.35rem 0.8rem; }
+      .header { gap:0.7rem; margin-bottom:1.2rem; }
+      .seal { width:42px; height:42px; }
+      .seal svg { width:26px; height:26px; }
+      .header-titles h1 { font-size:0.85rem; letter-spacing:0.12em; }
+      .header-titles .sub { font-size:0.5rem; letter-spacing:0.14em; }
+      .meta-strip { font-size:0.5rem; gap:0.3rem 0.9rem; padding:0.5rem 0.6rem; margin-bottom:1.1rem; }
+      .field-label { font-size:0.52rem; letter-spacing:0.14em; }
+      .address-text { font-size:0.7rem; padding:0.7rem 0.7rem; }
+      .address-prefix { padding:0 0.6rem; font-size:0.65rem; }
+      .copy-btn { padding:0 0.8rem; }
+      .copy-btn svg { width:16px; height:16px; }
+      .directive { font-size:0.62rem; padding:0.6rem 0.7rem; line-height:1.55; margin-bottom:1.1rem; }
+      .upload-zone { padding:0.8rem 0.7rem; gap:0.6rem; }
+      .upload-icon { width:32px; height:32px; }
+      .upload-icon svg { width:16px; height:16px; }
+      .upload-title { font-size:0.62rem; letter-spacing:0.1em; }
+      .upload-sub { font-size:0.52rem; }
+      .upload-cta { font-size:0.5rem; padding:0.25rem 0.4rem; }
+      .file-item { font-size:0.58rem; padding:0.3rem 0.5rem; }
+      .proof-note { font-size:0.52rem; letter-spacing:0.1em; margin-bottom:1rem; }
+      .email-block input { font-size:0.72rem; padding:0.7rem 0.7rem; }
+      .email-block input::placeholder { font-size:0.6rem; }
+      .email-prefix { padding:0 0.7rem; }
+      .email-prefix svg { width:15px; height:15px; }
+      .email-note { font-size:0.55rem; margin-bottom:1.1rem; }
+      .submit-btn { font-size:0.68rem; letter-spacing:0.2em; padding:0.8rem 0.8rem; }
+      .status-console { font-size:0.55rem; padding:0.5rem 0.6rem; }
+      .divider { margin:1.4rem 0 1.1rem; }
+      .divider::before { font-size:0.46rem; letter-spacing:0.2em; }
+      .data-table { font-size:0.56rem; }
+      .data-table thead th { font-size:0.46rem; letter-spacing:0.1em; padding:0.4rem 0.3rem; }
+      .data-table thead th.col-num { width:40px; }
+      .data-table thead th.col-url { width:44%; }
+      .data-table thead th.col-market { width:26%; }
+      .data-table thead th.col-purpose { width:30%; }
+      .data-table tbody td { padding:0.4rem 0.3rem; font-size:0.56rem; }
+      .data-table .row-num { font-size:0.52rem; }
+      .data-table .url-cell { font-size:0.52rem; }
+      .data-table .market-cell { font-size:0.52rem; }
+      .data-table .purpose-cell { font-size:0.52rem; }
+      .premium-table thead th.col-num { width:40px; }
+      .premium-table-scroll { max-height:340px; }
+      .status-indicator { font-size:0.42rem; gap:0.25rem; }
+      .status-indicator .flash-dot { width:6px; height:6px; }
+      .activation-fade-msg { padding:0.7rem 0.8rem; gap:0.4rem; }
+      .activation-fade-msg .msg-title { font-size:0.48rem; letter-spacing:0.12em; }
+      .activation-fade-msg .msg-title svg { width:11px; height:11px; }
+      .activation-fade-msg .msg-sub { font-size:0.4rem; letter-spacing:0.08em; }
+      .how-to-use { margin-top:1.4rem; padding:1.1rem 1rem 1.2rem; }
+      .how-to-use::before { font-size:0.44rem; letter-spacing:0.2em; }
+      .how-to-use h2 { font-size:0.68rem; letter-spacing:0.14em; margin-bottom:0.8rem; }
+      .how-to-use h2 svg { width:14px; height:14px; }
+      .how-step { font-size:0.6rem; gap:0.6rem; line-height:1.5; }
+      .how-step::before { width:19px; height:19px; font-size:0.52rem; }
+      .how-step .step-text code { font-size:0.56rem; padding:0.03rem 0.28rem; }
+      .safety-callout { padding:0.7rem 0.8rem; gap:0.5rem; margin-top:0.9rem; }
+      .safety-callout .safety-text { font-size:0.62rem; line-height:1.5; }
+      .safety-callout .safety-icon svg { width:16px; height:16px; }
+      .footer-warning { font-size:0.46rem; letter-spacing:0.1em; }
+      .activation-body { padding:1.2rem 1rem 1.2rem; }
+      .activation-title { font-size:0.75rem; letter-spacing:0.14em; }
+      .activation-sub { font-size:0.52rem; }
+      .activation-info { font-size:0.58rem; padding:0.6rem 0.7rem; }
+      .code-text-wrapper input { font-size:0.75rem; padding:0.7rem 0.8rem; letter-spacing:0.2em; }
+      .code-text-wrapper input::placeholder { font-size:0.56rem; }
+      .activate-btn { font-size:0.6rem; letter-spacing:0.15em; padding:0.7rem 0.8rem; }
+      .cancel-btn { font-size:0.58rem; padding:0.7rem 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="accessor-card">
+    <div class="class-bar">
+      <div class="left">
+        <span class="blink"></span>
+        <span>TOP SECRET // EYES ONLY</span>
+      </div>
+      <div class="right">
+        <span>LEVEL-5 CLEARANCE REQ</span>
+      </div>
+    </div>
+
+    <div class="card-inner">
+      <div class="header">
+        <div class="seal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 L4 6 L4 12 C4 17 8 21 12 22 C16 21 20 17 20 12 L20 6 Z"/>
+            <circle cx="12" cy="11" r="2.2"/>
+            <path d="M12 13.2 V16"/>
+            <path d="M9.5 11 H14.5"/>
+          </svg>
+        </div>
+        <div class="header-titles">
+          <h1>BLACK SITE ACCESS NODE</h1>
+          <div class="sub">CLASSIFIED OPERATIONS // <span class="warn">UNAUTHORIZED USE PROHIBITED</span></div>
+        </div>
+      </div>
+
+      <div class="meta-strip">
+        <span>NODE: <span class="val">TX-37-ALPHA</span></span>
+        <span>STATUS: <span class="val red">BLACK</span></span>
+        <span>CLEARANCE: <span class="val">LEVEL-5</span></span>
+        <span>AUTH: <span class="val">RESTRICTED</span></span>
+      </div>
+
+      <div class="field-label">
+        <span class="tag">[01]</span>
+        <span>SECURE TOR RELAY ADDRESS</span>
+        <span class="line"></span>
+      </div>
+      <div class="address-block">
+        <div class="address-prefix">›_</div>
+        <div class="address-text" id="torAddress">TEXG37ZoW33PtoBWogHB3z6ipPNy1RUnRx</div>
+        <button class="copy-btn" id="copyBtn" title="copy address">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="1"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="directive">
+        <strong>TRC20 TOKEN ONLY</strong> — transfer <span class="amount-badge" id="amountDisplay">$500</span> in USDT to access TOR Official Verified Market URL. Non-compliance triggers immediate lockdown.
+      </div>
+
+      <div class="field-label">
+        <span class="tag">[02]</span>
+        <span>EVIDENCE UPLOAD CHANNEL</span>
+        <span class="line"></span>
+      </div>
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <div class="upload-info">
+          <div class="upload-title">MEDIA UPLOAD</div>
+          <div class="upload-sub">drop files or click to browse</div>
+        </div>
+        <div class="upload-cta">SELECT</div>
+        <input type="file" id="fileInput" multiple style="display: none;">
+      </div>
+      <div class="file-list" id="fileList"></div>
+
+      <div class="proof-note">
+        <span>REQUIRED:</span>
+        <span>PROOF OF PAYMENT RECEIPT</span>
+        <span class="req">*</span>
+      </div>
+
+      <div class="field-label">
+        <span class="tag">[03]</span>
+        <span>ACTIVATION CODE DELIVERY</span>
+        <span class="line"></span>
+      </div>
+      <div class="email-block">
+        <div class="email-prefix">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="1"></rect>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <input type="email" id="emailInput" placeholder="ENTER SECURE EMAIL FOR ACTIVATION CODE" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="email-note">
+        An <strong>ACTIVATION CODE</strong> will be transmitted to this address to unlock the URL server.
+      </div>
+
+      <button class="submit-btn" id="submitBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        TRANSMIT TO NODE
+      </button>
+
+      <div class="status-console">
+        <div class="status-led idle" id="statusDot"></div>
+        <div class="status-text" id="statusText">SYS READY // SECURE CHANNEL ESTABLISHED</div>
+      </div>
+
+      <hr class="divider">
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th class="col-url">URL</th>
+            <th class="col-market">MARKET</th>
+            <th class="col-purpose">PURPOSE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-num">1.</td>
+            <td class="url-cell">http://libraryqxxiqakubqv3dc2bend2koqsndbwox2johfywcatxie26bsad.onion/special/index</td>
+            <td class="market-cell">TOR Library Arcvives</td>
+            <td class="purpose-cell">OFFICIAL ACCESS MARKET</td>
+          </tr>
+          <tr>
+            <td class="row-num">2.</td>
+            <td class="url-cell">http://2fd6cemt4gmccflhm6imvdfvli3nf7zn6rfrwpsy7uhxrgbypvwf5fad.onion/</td>
+            <td class="market-cell">ONION MARKET SEARCH</td>
+            <td class="purpose-cell">BROWSING</td>
+          </tr>
+          <tr>
+            <td class="row-num">3.</td>
+            <td class="url-cell"> http://p4gs7n3ayjxjvuahyibnvmxecjgmkqh5bxtb65odzlirrxp2v57rxsid.onion</td>
+            <td class="market-cell">HACKING SOCIAL NETWORK</td>
+            <td class="purpose-cell">BROWSING</td>
+          </tr>
+          <tr>
+            <td class="row-num">4.</td>
+            <td class="url-cell">http://kidflix4yta3cu5a7skyyi7gdxgqbx4jiyx4uriem4ecv445frkpfcid.onion/</td>
+            <td class="market-cell">KID PORN MARKET</td>
+            <td class="purpose-cell">COMMS</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="divider divider-premium">
+
+      <div class="premium-table-wrapper">
+        <div class="premium-table-scroll">
+          <table class="data-table premium-table">
+            <thead>
+              <tr>
+                <th class="col-num">#</th>
+                <th class="col-url">URL</th>
+                <th class="col-market">MARKET</th>
+                <th class="col-purpose">PURPOSE</th>
+              </tr>
+            </thead>
+            <tbody id="premiumTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="activation-fade-msg">
+          <div class="msg-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            ACTIVATION CODE REQUIRED
+          </div>
+          <div class="msg-sub">CLICK ROW TO ENTER CODE</div>
+        </div>
+      </div>
+
+      <div class="how-to-use">
+        <h2>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          HOW TO USE
+        </h2>
+        <div class="how-steps">
+          <div class="how-step"><div class="step-text"><strong>Open TOR browser</strong> — launch the official Tor Browser application on your device.</div></div>
+          <div class="how-step"><div class="step-text"><strong>Connect to Tor private VPN successfully</strong> — ensure the Tor circuit is fully established and your private VPN is active before proceeding.</div></div>
+          <div class="how-step"><div class="step-text"><strong>Come back to the site</strong> — return to this classified access node once your secure connection is verified.</div></div>
+          <div class="how-step"><div class="step-text"><strong>Copy the URL</strong> — use the copy button above to copy the secure Tor relay address: <code>TEXG37ZoW33PtoBWogHB3z6ipPNy1RUnRx</code></div></div>
+          <div class="how-step"><div class="step-text"><strong>Search it on Tor</strong> — paste the copied URL into the Tor Browser address bar and navigate to the verified market.</div></div>
+          <div class="how-step"><div class="step-text"><strong>Use safely</strong> — operate within the Tor network with all security protocols enabled. Do not disable JavaScript protection or exit the secure circuit.</div></div>
+        </div>
+        <div class="safety-callout">
+          <div class="safety-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <div class="safety-text"><strong>Safety:</strong> Make sure Tor VPN is connected at all times. Never access any URL without a verified Tor circuit and active private VPN. Disconnect immediately if the circuit drops.</div>
+        </div>
+      </div>
+
+      <div class="footer-warning">
+        <span>⚡ TOR ROUTED</span>
+        <span>🔒 ZERO-LOG PROTOCOL</span>
+        <span class="danger">⚠ UNAUTHORIZED ACCESS IS A FEDERAL OFFENSE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activation Overlay -->
+  <div class="activation-overlay" id="activationOverlay">
+    <div class="activation-box">
+      <div class="class-bar">
+        <div class="left"><span class="blink"></span><span>RESTRICTED ACCESS // PREMIUM TIER</span></div>
+        <div class="right"><span>CODE REQ</span></div>
+      </div>
+      <div class="activation-body">
+        <div class="activation-seal">
+          <div class="seal-circle">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="activation-title">ACTIVATION CODE REQUIRED</div>
+        <div class="activation-sub">PREMIUM ACCESS // CLEARANCE VERIFICATION</div>
+        <div class="activation-info">
+          TARGET: <strong id="targetUrl">••••••••••••••••.onion</strong><br>
+          THIS RESOURCE IS <strong>PAID / PREMIUM</strong>. ENTER A VALID ACTIVATION CODE TO UNLOCK ACCESS.
+        </div>
+        <div class="code-text-wrapper">
+          <div class="code-prefix">#</div>
+          <input type="text" id="activationCode" placeholder="ENTER ACTIVATION CODE" maxlength="16" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="code-count-hint">
+          <span>16-DIGIT ALPHANUMERIC CODE</span>
+          <span class="count" id="codeCount">0 / 16</span>
+        </div>
+        <div class="code-error" id="codeError">INVALID CODE // ACCESS DENIED</div>
+        <div class="activation-actions">
+          <button class="activate-btn" id="activateBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            ACTIVATE
+          </button>
+          <button class="cancel-btn" id="cancelBtn">CANCEL</button>
+        </div>
+        <div class="activation-footer">⚠ UNAUTHORIZED USE WILL BE LOGGED AND REPORTED</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===================================================================
+    // TELEGRAM CONFIGURATION - REPLACE THESE WITH YOUR OWN VALUES
+    // 1. Create a bot with @BotFather on Telegram to get BOT_TOKEN
+    // 2. Get your chat ID from @userinfobot or by using getUpdates
+    // 3. For groups, add the bot and use the group's chat ID (negative number)
+    // ===================================================================
+    const TELEGRAM_BOT_TOKEN = '8805264473:AAHCiL3st7zSYYFWfyFHhX9E_yWMDf8V4lw';  // <-- REPLACE
+    const TELEGRAM_CHAT_ID = '7806346083';      // <-- REPLACE
+
+    (function() {
+      const copyBtn = document.getElementById('copyBtn');
+      const torAddress = document.getElementById('torAddress');
+      const uploadZone = document.getElementById('uploadZone');
+      const fileInput = document.getElementById('fileInput');
+      const fileList = document.getElementById('fileList');
+      const emailInput = document.getElementById('emailInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+      const amountDisplay = document.getElementById('amountDisplay');
+
+      const activationOverlay = document.getElementById('activationOverlay');
+      const targetUrlEl = document.getElementById('targetUrl');
+      const activationCode = document.getElementById('activationCode');
+      const codeError = document.getElementById('codeError');
+      const codeCount = document.getElementById('codeCount');
+      const activateBtn = document.getElementById('activateBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const premiumTableBody = document.getElementById('premiumTableBody');
+
+      let selectedFiles = [];
+      let currentPremiumUrl = '';
+
+      // ===== GENERATE 236 PREMIUM ROWS =====
+      const markets = ['DEEP VAULT','BLACK MARKET','ELITE HUB','SHADOW VAULT','GHOST RELAY','NULL SECTOR','CIPHER LOCK','SENTINEL','DARK POOL','NIGHT FALL','IRON GATE','SILENT NODE','VOID CHAIN','CRYPT BAY','ZERO POINT','RED SECTOR'];
+      const purposes = ['CLASSIFIED ARCHIVE','ASSET EXCHANGE','COMMAND RELAY','INTEL STORAGE','EXFIL ROUTE','GHOST ACCESS','ENCRYPTED VAULT','GUARD NODE','BLACK LEDGER','DARK COMMERCE','COVERT OPS','DEAD DROP','SIGNAL RELAY','DATA LAUNDRY','BURNER NET','DEEP COMMS'];
+      const prefixes = ['deep','black','elite','shadow','ghost','null','cipher','senti','dark','night','iron','silent','void','crypt','zero','red'];
+      const suffixes = ['vault','market','hub','relay','sector','lock','pool','fall','gate','node','chain','bay','point','net','drop','comms'];
+
+      function makeRow(i) {
+        const idx = i % 16;
+        const market = markets[idx];
+        const purpose = purposes[(i * 3) % 16];
+        const prefix = prefixes[(i * 7) % 16];
+        const suffix = suffixes[(i * 5) % 16];
+        const num = String(i + 1).padStart(3, '0');
+        const domain = prefix + suffix + num + '.onion';
+
+        const p1 = prefix.slice(0, Math.max(1, prefix.length - 2));
+        const p2 = prefix.slice(Math.max(1, prefix.length - 2));
+        const s1 = suffix.slice(0, Math.max(1, suffix.length - 2));
+        const s2 = suffix.slice(Math.max(1, suffix.length - 2));
+        const urlMarkup = 'http://' + p1 + '<span class="redacted">' + p2 + '</span>' + s1 + '<span class="redacted">' + s2 + '</span>' + num + '.onion';
+
+        let marketCell = market;
+        if (market === 'BLACK MARKET') {
+          marketCell = '<span class="status-indicator"><span class="flash-dot red"></span><span class="flash-label red">BLACK MARKET</span></span>';
+        } else if (market === 'GHOST RELAY') {
+          marketCell = '<span class="status-indicator"><span class="flash-dot green"></span><span class="flash-label green">GHOST RELAY</span></span>';
+        } else if (market === 'SENTINEL') {
+          marketCell = '<span class="status-indicator"><span class="flash-dot red"></span><span class="flash-label red">SENTINEL</span></span>';
+        } else if (market === 'NIGHT FALL') {
+          marketCell = '<span class="status-indicator"><span class="flash-dot green"></span><span class="flash-label green">NIGHT FALL</span></span>';
+        }
+
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-premium', 'true');
+        tr.setAttribute('data-url', 'http://' + domain);
+        tr.innerHTML = `
+          <td class="row-num">${num}</td>
+          <td class="url-cell">${urlMarkup} <span class="lock-inline">🔒</span></td>
+          <td class="market-cell">${marketCell}</td>
+          <td class="purpose-cell">${purpose}</td>
+        `;
+        return tr;
+      }
+
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < 236; i++) fragment.appendChild(makeRow(i));
+      premiumTableBody.appendChild(fragment);
+
+      // ===== AMOUNT FROM URL (?p=) =====
+      function getAmountFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const p = params.get('p');
+        if (p === null || p.trim() === '') return 500;
+        const cleaned = p.replace(/[^0-9.]/g, '');
+        const num = parseFloat(cleaned);
+        if (isNaN(num) || num <= 0) return 500;
+        return Math.round(num * 100) / 100;
+      }
+      function formatAmount(value) {
+        return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+      }
+      amountDisplay.textContent = formatAmount(getAmountFromUrl());
+
+      window.addEventListener('popstate', () => {
+        const newAmount = getAmountFromUrl();
+        amountDisplay.textContent = formatAmount(newAmount);
+        setStatus(`AMOUNT UPDATED // ${formatAmount(newAmount)} USDT`, 'idle');
+      });
+
+      // ===== STATUS =====
+      function setStatus(text, state = 'idle') {
+        statusText.textContent = text;
+        statusDot.className = 'status-led ' + state;
+        if (window.statusTimeout) clearTimeout(window.statusTimeout);
+        if (state === 'success' || state === 'error') {
+          window.statusTimeout = setTimeout(() => {
+            setStatus('SYS READY // SECURE CHANNEL ESTABLISHED', 'idle');
+          }, 4000);
+        }
+      }
+
+      // ===== FILE UTILITIES =====
+      function formatSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+      }
+      function renderFiles() {
+        fileList.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+          const item = document.createElement('div');
+          item.className = 'file-item';
+          item.innerHTML = `
+            <span class="file-name" title="${file.name}">▸ ${file.name}</span>
+            <span class="file-size">${formatSize(file.size)}</span>
+            <button class="remove-file" data-index="${index}" title="remove">✕</button>
+          `;
+          fileList.appendChild(item);
+        });
+        fileList.querySelectorAll('.remove-file').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = parseInt(btn.getAttribute('data-index'), 10);
+            selectedFiles.splice(idx, 1);
+            renderFiles();
+            setStatus(selectedFiles.length ? `${selectedFiles.length} FILE(S) STAGED` : 'EVIDENCE CLEARED', 'idle');
+          });
+        });
+      }
+      function addFiles(files) {
+        const newFiles = Array.from(files);
+        if (!newFiles.length) return;
+        newFiles.forEach(nf => {
+          const exists = selectedFiles.some(f => f.name === nf.name && f.size === nf.size && f.lastModified === nf.lastModified);
+          if (!exists) selectedFiles.push(nf);
+        });
+        renderFiles();
+        setStatus(`${selectedFiles.length} FILE(S) STAGED // AWAITING TRANSMIT`, 'success');
+      }
+
+      // ===== COPY ADDRESS =====
+      copyBtn.addEventListener('click', async () => {
+        const address = torAddress.textContent.trim();
+        try {
+          await navigator.clipboard.writeText(address);
+          setStatus('RELAY ADDRESS COPIED TO CLIPBOARD', 'success');
+        } catch (err) {
+          const textarea = document.createElement('textarea');
+          textarea.value = address;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          try { document.execCommand('copy'); setStatus('RELAY ADDRESS COPIED TO CLIPBOARD', 'success'); }
+          catch (e) { setStatus('COPY FAILED // MANUAL SELECT REQUIRED', 'error'); }
+          document.body.removeChild(textarea);
+        }
+      });
+
+      // ===== UPLOAD ZONE =====
+      uploadZone.addEventListener('click', (e) => {
+        if (e.target.closest('.remove-file') || e.target.closest('.file-item')) return;
+        fileInput.click();
+      });
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files.length) addFiles(e.target.files);
+        fileInput.value = '';
+      });
+      ['dragenter','dragover'].forEach(evt => {
+        uploadZone.addEventListener(evt, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          uploadZone.classList.add('dragover');
+        });
+      });
+      ['dragleave','drop'].forEach(evt => {
+        uploadZone.addEventListener(evt, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          uploadZone.classList.remove('dragover');
+        });
+      });
+      uploadZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length) addFiles(dt.files);
+      });
+
+      // ===== TELEGRAM SEND FUNCTION =====
+      async function sendToTelegram(files, email, amount) {
+        if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
+          throw new Error('Telegram bot token not configured');
+        }
+        if (!TELEGRAM_CHAT_ID || TELEGRAM_CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+          throw new Error('Telegram chat ID not configured');
+        }
+        const baseUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
+        // 1. Send text message with details
+        const messageText = `🚨 NEW SUBMISSION FROM BLACK SITE\n\n` +
+          `📧 Email: ${email}\n` +
+          `💰 Amount: ${amount}\n` +
+          `📎 Files: ${files.length}\n` +
+          `🕒 Time: ${new Date().toISOString()}\n` +
+          `🔗 Node: TX-37-ALPHA`;
+        const textRes = await fetch(`${baseUrl}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: messageText })
+        });
+        const textData = await textRes.json();
+        if (!textData.ok) throw new Error('Failed to send text to Telegram: ' + (textData.description || 'Unknown error'));
+
+        // 2. Send each file using sendPhoto (for images) or sendDocument (for others)
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append('chat_id', TELEGRAM_CHAT_ID);
+          const isImage = file.type.startsWith('image/');
+          const endpoint = isImage ? 'sendPhoto' : 'sendDocument';
+          const fieldName = isImage ? 'photo' : 'document';
+          formData.append(fieldName, file, file.name);
+          const fileRes = await fetch(`${baseUrl}/${endpoint}`, { method: 'POST', body: formData });
+          const fileData = await fileRes.json();
+          if (!fileData.ok) {
+            console.warn('File upload failed for', file.name, fileData);
+            // Continue even if one file fails
+          }
+        }
+        return true;
+      }
+
+      // ===== SUBMIT =====
+      submitBtn.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+        if (!email) { setStatus('ERROR // EMAIL REQUIRED FOR ACTIVATION', 'error'); emailInput.focus(); return; }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) { setStatus('ERROR // INVALID EMAIL FORMAT', 'error'); emailInput.focus(); return; }
+        if (!selectedFiles.length) {
+          setStatus('ERROR // PROOF OF PAYMENT RECEIPT REQUIRED', 'error');
+          uploadZone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        setStatus('TRANSMITTING TO NODE // DO NOT DISCONNECT…', 'success');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+
+        try {
+          await sendToTelegram(selectedFiles, email, formatAmount(getAmountFromUrl()));
+          setStatus(`TRANSMITTED // ACTIVATION CODE DISPATCHED TO ${email.toUpperCase()}`, 'success');
+          // Optionally clear files after successful send
+          // selectedFiles = []; renderFiles(); emailInput.value = '';
+        } catch (err) {
+          console.error(err);
+          setStatus('ERROR // TRANSMISSION FAILED · CHECK CONNECTION', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+        }
+      });
+
+      // ===== PREMIUM ROW CLICK → ACTIVATION OVERLAY =====
+      function updateCodeCount() {
+        const len = activationCode.value.replace(/[^a-zA-Z0-9]/g, '').length;
+        codeCount.textContent = len + ' / 16';
+      }
+      function resetOverlay() {
+        activationCode.value = '';
+        codeError.classList.remove('show');
+        updateCodeCount();
+      }
+      function closeOverlay() {
+        activationOverlay.classList.remove('active');
+        resetOverlay();
+      }
+
+      function attachPremiumHandlers() {
+        const premiumRows = document.querySelectorAll('.premium-table tbody tr[data-premium="true"]');
+        premiumRows.forEach(row => {
+          row.addEventListener('click', () => {
+            currentPremiumUrl = row.getAttribute('data-url') || 'http://premium.onion';
+            const masked = '•'.repeat(Math.max(8, currentPremiumUrl.replace(/^https?:\/\//, '').split('.')[0].length)) + '.onion';
+            targetUrlEl.textContent = masked;
+            resetOverlay();
+            activationOverlay.classList.add('active');
+            setTimeout(() => activationCode.focus(), 300);
+            setStatus(`PREMIUM LOCK TRIGGERED // ${masked}`, 'idle');
+          });
+        });
+      }
+
+      cancelBtn.addEventListener('click', () => {
+        closeOverlay();
+        setStatus('ACCESS CANCELLED // PREMIUM LOCK REMAINS', 'idle');
+      });
+      activationOverlay.addEventListener('click', (e) => {
+        if (e.target === activationOverlay) {
+          closeOverlay();
+          setStatus('ACCESS CANCELLED // PREMIUM LOCK REMAINS', 'idle');
+        }
+      });
+
+      activationCode.addEventListener('input', () => {
+        let val = activationCode.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+        activationCode.value = val.slice(0, 16);
+        updateCodeCount();
+        if (codeError.classList.contains('show')) codeError.classList.remove('show');
+      });
+      activationCode.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); attemptActivation(); }
+      });
+
+      function attemptActivation() {
+        const code = activationCode.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+        if (code.length === 16) {
+          setStatus(`ACTIVATION ACCEPTED // UNLOCKING PREMIUM NODE`, 'success');
+          closeOverlay();
+          setTimeout(() => setStatus(`PREMIUM ACCESS GRANTED // NODE UNLOCKED`, 'success'), 400);
+        } else {
+          codeError.classList.add('show');
+          setStatus('ERROR // 16-DIGIT CODE REQUIRED', 'error');
+          activationCode.focus();
+        }
+      }
+      activateBtn.addEventListener('click', attemptActivation);
+
+      // ===== INIT =====
+      attachPremiumHandlers();
+      statusDot.classList.add('idle');
+    })();
+  </script>
+</body>
+</html>
